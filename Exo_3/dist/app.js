@@ -1,0 +1,37 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const Personne_1 = require("./models/Personne");
+const banque_1 = require("./models/banque");
+const courant_1 = require("./models/courant");
+const epargne_1 = require("./models/epargne");
+const personne = new Personne_1.Personne();
+personne.Nom = "Doe";
+personne.Prenom = "John";
+personne.DateNaiss = new Date("1986-05-16");
+console.log("Test Affichage personne : ");
+console.log(`Nom : ${personne.Nom}`);
+console.log(`Prenom : ${personne.Prenom}`);
+console.log(`Date de Naissanse : ${personne.DateNaiss}`);
+const courant = new courant_1.Courant();
+courant.Numero = "0000-0000-0001";
+courant.Solde = 500;
+courant.LigneDeCredit = 500;
+courant.Titulaire = personne;
+// courant.Retrait(1200) // ne passera pas...
+courant.Retrait(800); // passera 
+const epargne = new epargne_1.Epargne();
+epargne.Numero = "0000-0000-0002";
+epargne.Solde = 3000;
+epargne.Titulaire = personne;
+epargne.Retrait(500);
+console.log(epargne.DateDernierRetrait);
+const banque = new banque_1.Banque();
+banque.Nom = "La banque centrale";
+banque.Ajouter(courant);
+banque.Ajouter(epargne);
+const CompteRecupere = banque.ObtenirCompte("0000-0000-0002");
+console.log(`Le compte numéro "0000-0000-0002" apartient à ${CompteRecupere === null || CompteRecupere === void 0 ? void 0 : CompteRecupere.Titulaire.Prenom}`);
+let result = banque.AvoirDesComptes(personne);
+console.log(`Somme des avoirs des compte de ${personne.Nom} ${personne.Prenom} sont de : ${banque.AvoirDesComptes(personne)}`);
+banque.Supprimer("0000-0000-0001");
+console.log(`Somme des avoirs des compte de ${personne.Nom} ${personne.Prenom} sont de : ${banque.AvoirDesComptes(personne)}`);
