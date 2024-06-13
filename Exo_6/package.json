@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "start-exo" : "tsc && node dist/app.js"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}
